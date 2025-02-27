@@ -16,7 +16,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody AccountRequest request) {
+    public void register(@Valid @RequestBody RegisterDto request) {
         authorService.register(request);
     }
 
@@ -25,9 +25,9 @@ public class AuthorController {
         return authorService.login(request);
     }
 
-    @GetMapping("/checkToken/{token}")
-    public TokenInfo checkToken(@PathVariable String token) {
-        return authorService.checkToken(token);
+    @PostMapping("/refresh-token")
+    public TokenResponse refresh(@RequestBody RefreshDto request){
+        return authorService.refresh(request);
     }
 
 }

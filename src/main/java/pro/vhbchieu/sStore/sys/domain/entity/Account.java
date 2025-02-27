@@ -45,7 +45,7 @@ public class Account extends BaseEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userInfo;
 
     @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)

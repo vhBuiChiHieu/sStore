@@ -6,9 +6,11 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.*;
 @Service
 public interface AuthorService {
 
-    void register(AccountRequest request);
+    void register(RegisterDto request);
 
     TokenResponse login(LoginDto request);
 
     TokenInfo checkToken(String token);
+
+    TokenResponse refresh(RefreshDto request);
 }

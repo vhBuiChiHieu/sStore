@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "user_info")
 public class UserInfo extends BaseEntity {
 
     @Id
@@ -23,7 +24,7 @@ public class UserInfo extends BaseEntity {
     private LocalDate dateOfBirth;
     private String avatar;
 
-    @OneToOne(mappedBy = "userInfo")
+    @OneToOne
     @JoinColumn(name = "account_id")
     private Account account;
 }

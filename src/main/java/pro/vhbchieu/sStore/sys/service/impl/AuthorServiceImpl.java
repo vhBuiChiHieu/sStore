@@ -2,6 +2,7 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.antlr.v4.runtime.Token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
@@ -12,8 +13,10 @@ import pro.vhbchieu.sStore.config.security.JwtService;
 import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.*;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
+import pro.vhbchieu.sStore.sys.domain.entity.UserInfo;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
+import pro.vhbchieu.sStore.sys.repository.UserInfoRepository;
 import pro.vhbchieu.sStore.sys.service.AuthorService;
 
 import java.util.List;
@@ -25,11 +28,12 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     @Override
-    public void register(AccountRequest request) {
+    public void register(RegisterDto request) {
         if (accountRepository.existsByMail(request.getEmail()))
             throw new CustomException(ErrorContent.EMAIL_ALREADY_EXIST);
 
@@ -43,6 +47,14 @@ public class AuthorServiceImpl implements AuthorService {
                 .status(AccountStatus.ACTIVE)
                 .build();
         accountRepository.save(newAccount);
+
+        UserInfo userInfo = UserInfo.builder()
+                .account(newAccount)
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .dateOfBirth(request.getDateOfBirth())
+                .build();
+        userInfoRepository.save(userInfo);
 
     }
 
@@ -70,6 +82,16 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public TokenInfo checkToken(java.lang.String token) {
         return jwtService.getTokenInfo(token);
+    }
+
+    @Override
+    public TokenResponse refresh(RefreshDto request) {
+        TokenInfo tokenInfo = jwtService.getTokenInfo(request.getRefreshToken());
+        if (!tokenInfo.getType().equals(TokenType.REFRESH.name()))
+            throw new CustomException(ErrorContent.TOKEN_INVALID);
+        return TokenResponse.builder()
+                .token(jwtService.generateToken(tokenInfo.getId(), tokenInfo.getUsername(), TokenType.ACCESS))
+                .build();
     }
 
 }
