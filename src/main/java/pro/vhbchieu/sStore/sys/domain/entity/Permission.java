@@ -30,7 +30,7 @@ public class Permission extends BaseEntity {
 
     private String description;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Role> roles = new ArrayList<>();
 }

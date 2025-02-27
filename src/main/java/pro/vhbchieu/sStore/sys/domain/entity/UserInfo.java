@@ -24,7 +24,7 @@ public class UserInfo extends BaseEntity {
     private LocalDate dateOfBirth;
     private String avatar;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
 }

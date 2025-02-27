@@ -48,9 +48,11 @@ public class ProductVariant extends BaseEntity {
     @OneToMany(mappedBy = "productVariant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductImage> productImages = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+    private List<CartItem> cartItems = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "productVariant", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems;
+    private List<OrderItem> orderItems = new ArrayList<>();
 }

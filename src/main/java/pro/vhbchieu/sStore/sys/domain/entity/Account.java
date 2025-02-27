@@ -35,7 +35,7 @@ public class Account extends BaseEntity {
     @Enumerated(EnumType.ORDINAL)
     private AccountStatus status;
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "account_has_role",
             joinColumns = @JoinColumn(name = "account_id"),
@@ -45,14 +45,13 @@ public class Account extends BaseEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserInfo userInfo;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Cart cart;
 
     @Builder.Default
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Orders> orders = new ArrayList<>();
 }
-

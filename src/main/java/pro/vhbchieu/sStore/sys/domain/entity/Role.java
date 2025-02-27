@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @ToString(exclude = "permissions")
 @Table(
-        name = "Role",
+        name = "role",
         indexes = {
                 @Index(name = "idx_role_name", columnList = "name", unique = true)
         }
@@ -30,11 +30,11 @@ public class Role extends BaseEntity{
 
     private String description;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Account> accounts = new ArrayList<>();
 
-    @ManyToMany()
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "role_has_permission",
             joinColumns = @JoinColumn(name = "role_id"),
