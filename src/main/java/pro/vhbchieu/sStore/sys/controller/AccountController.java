@@ -1,6 +1,8 @@
 package pro.vhbchieu.sStore.sys.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,8 +12,8 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountUpdate;
 import pro.vhbchieu.sStore.sys.service.AccountService;
+import pro.vhbchieu.sStore.sys.service.AuthorService;
 import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
 @RestController
@@ -21,6 +23,7 @@ import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 public class AccountController {
 
     private final AccountService accountService;
+    private final AuthorService authorService;
 
     //admin create account
     @PreAuthorize("hasAuthority('ACCOUNT_CREATE')")
@@ -29,21 +32,24 @@ public class AccountController {
         return accountService.createAccount(request);
     }
 
-    @PreAuthorize("hasAuthority('ACCOUNT_UPDATE')")
-    @PutMapping("/{id}")
-    public void update(@PathVariable Long id, @RequestBody @Valid AccountUpdate request) {
-        accountService.update(id, request);
-    }
-
     @PreAuthorize("hasAuthority('ACCOUNT_UPDATE_OWN')")
-    @PutMapping("/changePassword")
+    @PutMapping("/change-password")
     public void changePassword(@RequestBody @Valid AccountChangePasswordDto request) {
         AccountAuthDto accountAuthDto = SecurityUtils.getCurrentAccount();
         accountService.changePassword(request, accountAuthDto);
     }
 
+    @PreAuthorize("hasAuthority('ACCOUNT_UPDATE')")
+    @PutMapping("/change-status/{id}")
+    public void changeStatus(
+            @PathVariable("id") Long id,
+            @Min (0) @Max (2) @RequestParam(value = "status") Integer status
+    ) {
+        accountService.changeStatus(id, status);
+    }
+
     @PreAuthorize("hasAuthority('ACCOUNT_READ_OWN')")
-    @GetMapping("/info")
+    @GetMapping("/profile")
     public AccountDto info() {
         AccountAuthDto accountAuthDto = SecurityUtils.getCurrentAccount();
         return accountService.getInfo(accountAuthDto);

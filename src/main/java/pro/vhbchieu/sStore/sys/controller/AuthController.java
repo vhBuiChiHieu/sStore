@@ -11,7 +11,7 @@ import pro.vhbchieu.sStore.sys.service.AuthorService;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-public class AuthorController {
+public class AuthController {
 
     private final AuthorService authorService;
 
@@ -29,5 +29,7 @@ public class AuthorController {
     public TokenResponse refresh(@RequestBody RefreshDto request){
         return authorService.refresh(request);
     }
+
+    //todo forgot-password
 
 }

@@ -15,7 +15,6 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountUpdate;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 import pro.vhbchieu.sStore.sys.domain.entity.Role;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
@@ -85,18 +84,12 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void update(Long id, AccountUpdate request) {
+    public void changeStatus(Long id, Integer status) {
         Account account = accountRepository.findById(id).orElseThrow(
                 () -> new CustomException(ErrorContent.ACCOUNT_NOT_EXIST)
         );
-        if (request.getStatus() == null)
-            request.setStatus(AccountStatus.LOCKED);
-        else
-            account.setStatus(request.getStatus());
-
-        if (request.getPassword() != null)
-            account.setHashPassword(passwordEncoder.encode(request.getPassword()));
-
+        account.setStatus(AccountStatus.fromValue(status));
         accountRepository.save(account);
     }
+
 }

@@ -13,4 +13,5 @@ public interface AuthorService {
     TokenInfo checkToken(String token);
 
     TokenResponse refresh(RefreshDto request);
+
 }

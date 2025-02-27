@@ -1,12 +1,13 @@
 package pro.vhbchieu.sStore.sys.service;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountUpdate;
 
 @Service
 public interface AccountService {
@@ -16,5 +17,5 @@ public interface AccountService {
 
     void changePassword(AccountChangePasswordDto request, AccountAuthDto accountAuthDto);
 
-    void update(Long id, AccountUpdate request);
+    void changeStatus(Long id, @Min(0) @Max(2) Integer status);
 }
