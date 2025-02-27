@@ -3,10 +3,12 @@ package pro.vhbchieu.sStore.sys.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
@@ -23,13 +25,22 @@ import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 public class AccountController {
 
     private final AccountService accountService;
-    private final AuthorService authorService;
 
     //admin create account
     @PreAuthorize("hasAuthority('ACCOUNT_CREATE')")
     @PostMapping()
     public TokenResponse createAccount(@RequestBody AccountRequest request) {
         return accountService.createAccount(request);
+    }
+
+    @PreAuthorize("hasAuthority('ACCOUNT_READ')")
+    @GetMapping("/list")
+    public PageDto<AccountDto> getList(
+            @Min(1) @RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
+            @Min(1) @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
+            @RequestParam(value = "status", required = false) Integer status
+    ) {
+        return accountService.getList(pageIndex, pageSize, status);
     }
 
     @PreAuthorize("hasAuthority('ACCOUNT_UPDATE_OWN')")

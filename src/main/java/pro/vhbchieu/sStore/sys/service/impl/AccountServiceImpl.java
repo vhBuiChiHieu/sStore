@@ -1,10 +1,16 @@
 package pro.vhbchieu.sStore.sys.service.impl;
 
+import jakarta.persistence.criteria.Predicate;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
 import pro.vhbchieu.sStore.config.constant.TokenType;
@@ -21,6 +27,7 @@ import pro.vhbchieu.sStore.sys.repository.AccountRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
 import pro.vhbchieu.sStore.sys.service.AccountService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -90,6 +97,25 @@ public class AccountServiceImpl implements AccountService {
         );
         account.setStatus(AccountStatus.fromValue(status));
         accountRepository.save(account);
+    }
+
+    @Override
+    public PageDto<AccountDto> getList(Integer pageIndex, Integer pageSize, Integer status) {
+        Specification<Account> specification = (r, cq, cb) -> {
+          List<Predicate> predicates = new ArrayList<>();
+
+          if (status != null) {
+              predicates.add(cb.equal(r.get("status"), AccountStatus.fromValue(status)));
+          }
+
+          return cb.and(predicates.toArray(new Predicate[0]));
+        };
+
+        Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+
+        Page<AccountDto> accountDtoPage = accountRepository.findAll(specification, pageable).map(AccountDto::new);
+
+        return PageDto.of(accountDtoPage);
     }
 
 }
