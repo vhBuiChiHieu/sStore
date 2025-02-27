@@ -14,6 +14,7 @@ public enum ErrorContent {
     LOGIN_WITH_FRESH_TOKEN("Cannot login with fresh token"),
     RE_PASSWORD_NOT_MATCH("Re-password not match"),
     PASSWORD_NOT_MATCH("Password not match"),
+    SLUG_ALREADY_EXIST("Slug already exist"),
     ;
     private final String content;
 

@@ -6,4 +6,5 @@ import pro.vhbchieu.sStore.sys.domain.entity.product.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    boolean existsBySlug(String slug);
 }

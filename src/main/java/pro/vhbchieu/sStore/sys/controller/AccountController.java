@@ -3,7 +3,6 @@ package pro.vhbchieu.sStore.sys.controller;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +14,6 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
 import pro.vhbchieu.sStore.sys.service.AccountService;
-import pro.vhbchieu.sStore.sys.service.AuthorService;
 import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
 @RestController

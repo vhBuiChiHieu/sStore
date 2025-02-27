@@ -2,7 +2,6 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.antlr.v4.runtime.Token;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
@@ -77,11 +76,6 @@ public class AuthorServiceImpl implements AuthorService {
                         jwtService.generateToken(account.getId(), account.getMail(), TokenType.REFRESH) : null
                 )
                 .build();
-    }
-
-    @Override
-    public TokenInfo checkToken(java.lang.String token) {
-        return jwtService.getTokenInfo(token);
     }
 
     @Override

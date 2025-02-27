@@ -10,8 +10,6 @@ public interface AuthorService {
 
     TokenResponse login(LoginDto request);
 
-    TokenInfo checkToken(String token);
-
     TokenResponse refresh(RefreshDto request);
 
 }

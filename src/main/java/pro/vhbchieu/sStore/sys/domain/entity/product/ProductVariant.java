@@ -26,7 +26,7 @@ public class ProductVariant extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne()
+    @ManyToOne()
     @JoinColumn(name = "product_id")
     private Product product;
 

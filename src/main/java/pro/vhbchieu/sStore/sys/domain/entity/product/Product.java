@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import pro.vhbchieu.sStore.sys.domain.entity.BaseEntity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +32,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private ProductVariant productVariant;
+    @Builder.Default
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ProductVariant> productVariants = new ArrayList<>();
 }
