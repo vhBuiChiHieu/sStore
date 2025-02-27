@@ -24,5 +24,6 @@ public class UserInfo extends BaseEntity {
     private String avatar;
 
     @OneToOne(mappedBy = "userInfo")
+    @JoinColumn(name = "account_id")
     private Account account;
 }

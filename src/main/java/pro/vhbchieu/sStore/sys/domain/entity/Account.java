@@ -3,6 +3,8 @@ package pro.vhbchieu.sStore.sys.domain.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
+import pro.vhbchieu.sStore.sys.domain.entity.order.Cart;
+import pro.vhbchieu.sStore.sys.domain.entity.order.Orders;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +46,13 @@ public class Account extends BaseEntity {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_info_id")
     private UserInfo userInfo;
+
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
+    private Cart cart;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<Orders> orders = new ArrayList<>();
 }
 
