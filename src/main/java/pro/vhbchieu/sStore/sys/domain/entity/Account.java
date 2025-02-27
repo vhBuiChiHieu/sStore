@@ -45,10 +45,10 @@ public class Account extends BaseEntity {
     private List<Role> roles = new ArrayList<>();
 
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private UserInfo userInfo;
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "account", cascade = CascadeType.ALL)
     private Cart cart;
 
     @Builder.Default
