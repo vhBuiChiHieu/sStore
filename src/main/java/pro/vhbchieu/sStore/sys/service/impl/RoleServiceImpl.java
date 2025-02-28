@@ -2,7 +2,6 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
@@ -16,7 +15,6 @@ import pro.vhbchieu.sStore.sys.repository.PermissionRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
 import pro.vhbchieu.sStore.sys.service.RoleService;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;

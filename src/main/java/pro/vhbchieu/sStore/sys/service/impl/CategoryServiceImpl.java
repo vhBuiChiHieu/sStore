@@ -6,10 +6,13 @@ import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
 import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.category.CategoryCreateDto;
+import pro.vhbchieu.sStore.sys.domain.dto.category.CategoryDto;
 import pro.vhbchieu.sStore.sys.domain.entity.product.Category;
 import pro.vhbchieu.sStore.sys.repository.CategoryRepository;
 import pro.vhbchieu.sStore.sys.service.CategoryService;
 import pro.vhbchieu.sStore.sys.utils.StringUtils;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -31,5 +34,28 @@ public class CategoryServiceImpl implements CategoryService {
                 .build();
 
         categoryRepository.save(newCategory);
+    }
+
+    @Override
+    public List<CategoryDto> getList() {
+        return categoryRepository.findAll().stream().map(CategoryDto::new).toList();
+    }
+
+    @Override
+    public void update(Long categoryId, CategoryCreateDto request) {
+        Category category = categoryRepository.findById(categoryId).orElseThrow(
+                () -> new CustomException(ErrorContent.CATEGORY_NOT_EXIST)
+        );
+
+        category.setName(request.getName());
+        category.setDescription(request.getDescription());
+        category.setSlug(StringUtils.toSlug(request.getName()));
+
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void delete(Long categoryId) {
+        categoryRepository.deleteById(categoryId);
     }
 }
