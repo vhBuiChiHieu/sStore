@@ -29,13 +29,18 @@ public class RoleController {
     }
 
     @PostMapping()
-    public void create(@Valid @RequestBody RoleRequest request) {
+    public void create(@RequestBody RoleRequest request) {
         roleService.create(request);
     }
 
     @DeleteMapping("/{roleId}")
     public void delete(@PathVariable("roleId") Long roleId) {
         roleService.delete(roleId);
+    }
+
+    @PutMapping()
+    public void update(@RequestBody RoleRequest request) {
+        roleService.update(request);
     }
 
 }

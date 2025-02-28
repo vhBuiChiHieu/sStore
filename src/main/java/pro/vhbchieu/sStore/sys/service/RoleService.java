@@ -17,4 +17,6 @@ public interface RoleService {
     RoleDto getDetail(Long roleId);
 
     void create(@Valid RoleRequest request);
+
+    void update(RoleRequest request);
 }

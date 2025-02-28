@@ -2,6 +2,8 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
 import pro.vhbchieu.sStore.exception.CustomException;
@@ -14,12 +16,15 @@ import pro.vhbchieu.sStore.sys.repository.PermissionRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
 import pro.vhbchieu.sStore.sys.service.RoleService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
@@ -67,6 +72,22 @@ public class RoleServiceImpl implements RoleService {
                 .permissions(permissions)
                 .build();
         roleRepository.save(newRole);
+    }
+
+    @Override
+    public void update(RoleRequest request) {
+        Role role = roleRepository.findById(request.getId()).orElseThrow(
+                () -> new CustomException(ErrorContent.ROLE_NOT_EXIST)
+        );
+
+        List<Permission> permissions = request.getPermissions().stream().map(
+                pr -> permissionRepository.findById(pr.getId()).orElse(null)
+        ).filter(Objects::nonNull).collect(Collectors.toList());
+
+        role.setName(request.getName());
+        role.setDescription(request.getDescription());
+        role.setPermissions(permissions);
+        roleRepository.save(role);
     }
 
 
