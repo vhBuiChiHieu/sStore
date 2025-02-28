@@ -17,6 +17,9 @@ public enum ErrorContent {
     SLUG_ALREADY_EXIST("Slug already exist"),
     ROLE_NOT_EXIST("Role not exist"),
     CATEGORY_NOT_EXIST("Category not exist"),
+    BRAND_NOT_EXIST("Brand not exist"),
+    PRODUCT_NOT_EXIST("Product not exist"),
+    VARIANT_SKU_ALREADY_EXIST("Variant SKU already exist"),
     ;
     private final String content;
 
