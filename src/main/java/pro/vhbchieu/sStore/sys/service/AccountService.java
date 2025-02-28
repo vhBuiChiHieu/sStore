@@ -14,7 +14,7 @@ import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
 public interface AccountService {
     TokenResponse createAccount(AccountRequest request);
 
-    AccountDto getInfo(AccountAuthDto accountAuthDto);
+    AccountDto getInfo(Long userId);
 
     void changePassword(AccountChangePasswordDto request, AccountAuthDto accountAuthDto);
 

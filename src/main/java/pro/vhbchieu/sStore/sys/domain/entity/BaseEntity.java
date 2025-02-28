@@ -14,10 +14,10 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 public class BaseEntity {
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private Long createdBy;
-    private Long updatedBy;
+    protected LocalDateTime createdAt;
+    protected LocalDateTime updatedAt;
+    protected Long createdBy;
+    protected Long updatedBy;
 
     @PrePersist
     public void onCreate() {

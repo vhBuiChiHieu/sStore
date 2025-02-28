@@ -49,14 +49,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new CustomException(ErrorContent.LOGIN_WITH_FRESH_TOKEN);
 
             AccountAuthDto accountAuthDto = (AccountAuthDto) userDetailService.loadUserByUsername(tokenInfo.getUsername());
-
-            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    accountAuthDto,
-                    null,
-                    accountAuthDto.getAuthorities()
-            );
-            authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+            if (accountAuthDto.isEnabled()) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        accountAuthDto,
+                        null,
+                        accountAuthDto.getAuthorities()
+                );
+                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+            }
             filterChain.doFilter(request, response);
 
         } catch (CustomException ce) {

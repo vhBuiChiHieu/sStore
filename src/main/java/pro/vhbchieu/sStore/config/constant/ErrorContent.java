@@ -15,6 +15,7 @@ public enum ErrorContent {
     RE_PASSWORD_NOT_MATCH("Re-password not match"),
     PASSWORD_NOT_MATCH("Password not match"),
     SLUG_ALREADY_EXIST("Slug already exist"),
+    ROLE_NOT_EXIST("Role not exist"),
     ;
     private final String content;
 

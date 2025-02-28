@@ -26,6 +26,7 @@ import pro.vhbchieu.sStore.sys.domain.entity.Role;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
 import pro.vhbchieu.sStore.sys.service.AccountService;
+import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
         Account newAccount = Account.builder()
                 .mail(request.getEmail())
                 .hashPassword(passwordEncoder.encode(request.getPassword()))
-                .status(AccountStatus.ACTIVE)
+                .status(request.getStatus())
                 .roles(roles)
                 .build();
         accountRepository.save(newAccount);
@@ -63,13 +64,17 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto getInfo(AccountAuthDto accountAuthDto) {
-        if (accountAuthDto == null){
-            throw new CustomException(ErrorContent.AUTHENTICATION_FAILED);
+    public AccountDto getInfo(Long userId) {
+        if (userId == null) {
+            AccountAuthDto accountAuthDto = SecurityUtils.getCurrentAccount();
+            if (accountAuthDto == null) {
+                throw new CustomException(ErrorContent.AUTHENTICATION_FAILED);
+            }
+            userId = accountAuthDto.getId();
         }
-        log.info("Get account info for {}", accountAuthDto.getUsername());
-        Account account = accountRepository.findByMail(accountAuthDto.getUsername()).orElseThrow(
-                () -> new CustomException(ErrorContent.EMAIL_NOT_EXIST)
+
+        Account account = accountRepository.findById(userId).orElseThrow(
+                () -> new CustomException(ErrorContent.ACCOUNT_NOT_EXIST)
         );
         return new AccountDto(account);
     }

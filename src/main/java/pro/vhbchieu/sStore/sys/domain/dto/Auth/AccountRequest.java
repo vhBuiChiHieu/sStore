@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import pro.vhbchieu.sStore.config.constant.AccountStatus;
 import pro.vhbchieu.sStore.config.constant.RoleType;
 
 import java.util.List;
@@ -26,5 +27,7 @@ public class AccountRequest {
     private String password;
     private String rePassword;
 
-    private List<RoleType> roles;
+    private AccountStatus status = AccountStatus.ACTIVE;
+
+    private List<RoleType> roles = List.of(RoleType.USER);
 }

@@ -4,8 +4,7 @@ import lombok.*;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Getter
 @Setter
@@ -16,12 +15,12 @@ public class AccountDto {
     private Long id;
     private String mail;
     private AccountStatus status;
-    private Set<RoleDto> roles;
+    private List<RoleDto> roles;
 
     public AccountDto(Account account) {
         this.id = account.getId();
         this.mail = account.getMail();
         this.status = account.getStatus();
-        this.roles = account.getRoles().stream().map(RoleDto::new).collect(Collectors.toSet());
+        this.roles = account.getRoles().stream().map(RoleDto::new).toList();
     }
 }

@@ -60,8 +60,18 @@ public class AccountController {
     @PreAuthorize("hasAuthority('ACCOUNT_READ_OWN')")
     @GetMapping("/profile")
     public AccountDto info() {
-        AccountAuthDto accountAuthDto = SecurityUtils.getCurrentAccount();
-        return accountService.getInfo(accountAuthDto);
+        return accountService.getInfo(null);
+    }
+
+    @GetMapping("/profile/{userId}")
+    public AccountDto info(@PathVariable("userId") Long userId) {
+        return accountService.getInfo(userId);
+    }
+
+    @PreAuthorize("hasAuthority('ACCOUNT_DELETE')")
+    @DeleteMapping("/{userId}")
+    public void delete(@PathVariable("userId") Long userId) {
+        accountService.changeStatus(userId, 1);
     }
 
 }

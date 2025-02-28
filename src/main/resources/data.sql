@@ -35,7 +35,7 @@ WHERE r.name = 'ADMIN';
 
 
 INSERT INTO `account` (status, created_at, created_by, updated_at, updated_by, mail, hash_password, phone) VALUES
-                                                                                                               (0, '2025-02-28 10:00:00.000000', NULL, '2025-02-28 10:00:00.000000', NULL, 'admin@admin.com', '$2a$10$w7USNBRLKpcukgoSdGh9OOf6MO9VK7pb1dw6OM3cDD7Y0JBx4NpYG', '0325978045'),
+                                                                                                               (0, '2025-02-28 10:00:00.000000', NULL, '2025-02-28 10:00:00.000000', NULL, 'admin@admin.com', '$2a$10$nKt9xZbVo1IXhaAqStC7juImMAyw4j.flpPAGWhK8Z9Zpeg7opDXK', '0325978045'),
                                                                                                                (0, '2025-02-28 10:00:00.000000', NULL, '2025-02-28 10:00:00.000000', NULL, 'user2@example.com', '$2a$10$w7USNBRLKpcukgoSdGh9OOf6MO9VK7pb1dw6OM3cDD7Y0JBx4NpYG', NULL),
                                                                                                                (0, '2025-02-28 10:00:00.000000', NULL, '2025-02-28 10:00:00.000000', NULL, 'user3@example.com', '$2a$10$w7USNBRLKpcukgoSdGh9OOf6MO9VK7pb1dw6OM3cDD7Y0JBx4NpYG', NULL),
                                                                                                                (0, '2025-02-28 10:00:00.000000', NULL, '2025-02-28 10:00:00.000000', NULL, 'user4@example.com', '$2a$10$w7USNBRLKpcukgoSdGh9OOf6MO9VK7pb1dw6OM3cDD7Y0JBx4NpYG', NULL),
