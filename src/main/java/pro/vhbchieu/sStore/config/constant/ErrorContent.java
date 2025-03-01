@@ -20,6 +20,7 @@ public enum ErrorContent {
     BRAND_NOT_EXIST("Brand not exist"),
     PRODUCT_NOT_EXIST("Product not exist"),
     VARIANT_SKU_ALREADY_EXIST("Variant SKU already exist"),
+    PRODUCT_VARIANT_NOT_EXIST("Product variant not exist"),
     ;
     private final String content;
 
