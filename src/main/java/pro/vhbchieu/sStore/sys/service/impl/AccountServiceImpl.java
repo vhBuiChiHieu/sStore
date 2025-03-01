@@ -42,6 +42,12 @@ public class AccountServiceImpl implements AccountService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Implementation to create and persist a new account,
+     * and generate authentication tokens.
+     */
     @Override
     public TokenResponse createAccount(AccountRequest request) {
         if (accountRepository.existsByMail(request.getEmail()))
@@ -63,6 +69,12 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Provides account information based on the given user ID.
+     * Defaults to current authenticated user if user ID is null.
+     */
     @Override
     public AccountDto getInfo(Long userId) {
         if (userId == null) {
@@ -79,9 +91,15 @@ public class AccountServiceImpl implements AccountService {
         return new AccountDto(account);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Handles password change for the authenticated user.
+     * Verifies passwords and updates the hashed password.
+     */
     @Override
     public void changePassword(AccountChangePasswordDto request, AccountAuthDto accountAuthDto) {
-        if (accountAuthDto == null){
+        if (accountAuthDto == null) {
             throw new CustomException(ErrorContent.AUTHENTICATION_FAILED);
         }
         Account account = accountRepository.findById(accountAuthDto.getId()).orElseThrow(
@@ -95,6 +113,12 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Updates the status of the account associated with the provided ID.
+     */
     @Override
     public void changeStatus(Long id, Integer status) {
         Account account = accountRepository.findById(id).orElseThrow(
@@ -104,12 +128,17 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * Retrieves a paginated list of accounts based on the provided parameters.
+     */
     @Override
     public PageDto<AccountDto> getList(Integer pageIndex, Integer pageSize, Integer status) {
         Specification<Account> specification = (r, cq, cb) -> {
-          List<Predicate> predicates = new ArrayList<>();
+            List<Predicate> predicates = new ArrayList<>();
 
-          if (status != null) {
+            if (status != null) {
               predicates.add(cb.equal(r.get("status"), AccountStatus.fromValue(status)));
           }
 

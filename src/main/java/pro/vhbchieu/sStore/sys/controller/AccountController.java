@@ -24,7 +24,6 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    //admin create account
     @PreAuthorize("hasAuthority('ACCOUNT_CREATE')")
     @PostMapping()
     public TokenResponse createAccount(@RequestBody AccountRequest request) {
