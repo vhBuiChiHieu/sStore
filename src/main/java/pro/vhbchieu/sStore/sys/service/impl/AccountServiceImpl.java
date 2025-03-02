@@ -152,4 +152,9 @@ public class AccountServiceImpl implements AccountService {
         return PageDto.of(accountDtoPage);
     }
 
+    @Override
+    public void delete(Long userId) {
+        accountRepository.deleteById(userId);
+    }
+
 }

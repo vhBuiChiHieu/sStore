@@ -21,6 +21,12 @@ public enum ErrorContent {
     PRODUCT_NOT_EXIST("Product not exist"),
     VARIANT_SKU_ALREADY_EXIST("Variant SKU already exist"),
     PRODUCT_VARIANT_NOT_EXIST("Product variant not exist"),
+    
+    // Product Image related errors
+    PRODUCT_IMAGE_INVALID("Product image data is invalid"),
+    PRODUCT_IMAGE_NOT_FOUND("Product image not found"),
+    PRODUCT_IMAGE_ID_REQUIRED("Product image ID is required"),
+    PRODUCT_VARIANT_ID_REQUIRED("Product variant ID is required"),
     ;
     private final String content;
 

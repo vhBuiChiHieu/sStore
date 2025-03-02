@@ -29,7 +29,8 @@ public class ResponseBodyFilter implements ResponseBodyAdvice<Object> {
 
     @Override
     public boolean supports(@NonNull MethodParameter returnType, @NonNull Class converterType) {
-        return true;
+        String path = httpRequest.getRequestURI();
+        return !(path.contains("/v3/api-docs") || path.contains("/swagger-ui"));
     }
 
     @SneakyThrows

@@ -58,4 +58,6 @@ public interface AccountService {
      * @return PageDto containing list of AccountDto objects
      */
     PageDto<AccountDto> getList(@Min(1) Integer pageIndex, @Min(1) Integer pageSize, Integer status);
+
+    void delete(Long userId);
 }

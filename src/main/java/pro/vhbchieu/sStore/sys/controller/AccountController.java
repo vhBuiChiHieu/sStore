@@ -70,7 +70,7 @@ public class AccountController {
     @PreAuthorize("hasAuthority('ACCOUNT_DELETE')")
     @DeleteMapping("/{userId}")
     public void delete(@PathVariable("userId") Long userId) {
-        accountService.changeStatus(userId, 1);
+        accountService.delete(userId);
     }
 
 }

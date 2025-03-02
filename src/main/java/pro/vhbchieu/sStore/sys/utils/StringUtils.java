@@ -96,4 +96,83 @@ public class StringUtils {
         }
         return count;
     }
+
+    /**
+     * Reverses a string.
+     * @param str The input string
+     * @return The reversed string
+     */
+    public static String reverse(String str) {
+        if (str == null) return null;
+        return new StringBuilder(str).reverse().toString();
+    }
+
+    /**
+     * Capitalizes first letter of each word in a string.
+     * @param str The input string
+     * @return The title case string
+     */
+    public static String toTitleCase(String str) {
+        if (str == null || str.isEmpty()) return str;
+
+        StringBuilder result = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : str.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            } else {
+                c = Character.toLowerCase(c);
+            }
+            result.append(c);
+        }
+
+        return result.toString();
+    }
+
+    /**
+     * Checks if a string contains only digits.
+     * @param str The input string
+     * @return true if string contains only digits
+     */
+    public static boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) return false;
+        return str.matches("\\d+");
+    }
+
+    /**
+     * Pads a string to the left with a specified character to reach desired length.
+     * @param str The input string
+     * @param length The desired total length
+     * @param padChar The character to pad with
+     * @return The padded string
+     */
+    public static String padLeft(String str, int length, char padChar) {
+        if (str == null) return null;
+        if (str.length() >= length) return str;
+
+        StringBuilder sb = new StringBuilder();
+        while (sb.length() < length - str.length()) {
+            sb.append(padChar);
+        }
+        sb.append(str);
+        return sb.toString();
+    }
+
+    /**
+     * Removes duplicate characters from a string while maintaining order.
+     * @param str The input string
+     * @return String with duplicate characters removed
+     */
+    public static String removeDuplicates(String str) {
+        if (str == null) return null;
+        StringBuilder result = new StringBuilder();
+        str.chars().distinct().forEach(c -> result.append((char) c));
+        return result.toString();
+    }
+
+    
 }
