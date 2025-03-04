@@ -47,4 +47,5 @@ public class RequestBodyFilter extends RequestBodyAdviceAdapter {
 
         return super.afterBodyRead(body, inputMessage, parameter, targetType, converterType);
     }
+
 }

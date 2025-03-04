@@ -37,6 +37,8 @@ public enum ErrorContent {
     EMPTY_FILE("Empty file"),
     FILE_FORMAT_NOT_SUPPORT("File format not support"),
     SAVED_FILE_FAILED("Saved file failed"),
+    FILE_NOT_FOUND("File not found"),
+    DELETE_FILE_FAILED("Delete file failed"),
     ;
     private final String content;
 

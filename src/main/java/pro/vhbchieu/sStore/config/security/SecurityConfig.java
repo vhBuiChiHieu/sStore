@@ -43,7 +43,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request ->
                         request
                                 .requestMatchers(PUBLIC_URLS).permitAll()
-                                .requestMatchers(HttpMethod.GET, "/file/**").permitAll()
                                 .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception ->
