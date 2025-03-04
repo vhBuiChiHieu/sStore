@@ -2,7 +2,6 @@ package pro.vhbchieu.sStore.sys.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import pro.vhbchieu.sStore.config.constant.RoleType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,8 +24,7 @@ public class Role extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private RoleType name;
+    private String name;
 
     private String description;
 

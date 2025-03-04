@@ -15,7 +15,7 @@ public class PermissionDto {
 
     public PermissionDto(Permission permission) {
         this.id = permission.getId();
-        this.name = permission.getName().name();
+        this.name = permission.getName();
         this.description = permission.getDescription();
     }
 }

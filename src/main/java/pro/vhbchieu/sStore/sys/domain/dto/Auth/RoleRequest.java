@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class RoleRequest {
     private Long id;
-    private RoleType name;
+    private String name;
     private String description;
     private List<PermissionRequest> permissions;
 }

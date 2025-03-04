@@ -19,7 +19,7 @@ public class RoleDto {
 
     public RoleDto(Role role) {
         this.id = role.getId();
-        this.name = role.getName().name();
+        this.name = role.getName();
         this.description = role.getDescription();
         this.permissions = role.getPermissions().stream().map(PermissionDto::new).toList();
     }

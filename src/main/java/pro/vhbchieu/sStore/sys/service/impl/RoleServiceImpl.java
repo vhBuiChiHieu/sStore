@@ -43,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
                 role ->
                         RoleDto.builder()
                                 .id(role.getId())
-                                .name(role.getName().name())
+                                .name(role.getName())
                                 .description(role.getDescription())
                                 .build()
         ).toList();
@@ -56,7 +56,7 @@ public class RoleServiceImpl implements RoleService {
         );
         return RoleDto.builder()
                 .id(role.getId())
-                .name(role.getName().name())
+                .name(role.getName())
                 .description(role.getDescription())
                 .permissions(role.getPermissions().stream().map(PermissionDto::new).toList())
                 .build();

@@ -35,8 +35,8 @@ public class AccountAuthDto implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().name())));
-        permissions.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getName().name())));
+        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName())));
+        permissions.forEach(permission -> authorities.add(new SimpleGrantedAuthority(permission.getName())));
         return authorities;
     }
 

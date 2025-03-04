@@ -8,6 +8,6 @@ import pro.vhbchieu.sStore.config.constant.PermissionType;
 @Setter
 public class PermissionRequest {
     private Long id;
-    private PermissionType name;
+    private String name;
     private String description;
 }

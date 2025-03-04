@@ -50,23 +50,23 @@ public class FileController {
             Path filePath = uploadPath.resolve(fileName);
 
             try {
-                // Save file
                 Files.copy(file.getInputStream(), filePath);
             } catch (Exception e) {
+                log.error("Exception: {}", e.getMessage(), e);
                 throw new CustomException(ErrorContent.SAVED_FILE_FAILED);
             }
 
             return new FileDto(fileName);
+
         } else {
             throw new CustomException(ErrorContent.FILE_FORMAT_NOT_SUPPORT);
         }
     }
 
-    @PreAuthorize("permitAll()")
     @GetMapping("/{fileName}")
     public ResponseEntity<Resource> getImage(@PathVariable("fileName") String fileName) {
         try {
-            String uploadDir = System.getProperty("user.home") + folder;
+            String uploadDir = folder;
             Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();
             Resource resource = new UrlResource(filePath.toUri());
 
