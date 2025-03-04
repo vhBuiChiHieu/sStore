@@ -2,7 +2,11 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
 import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.category.CategoryCreateDto;
@@ -57,5 +61,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void delete(Long categoryId) {
         categoryRepository.deleteById(categoryId);
+    }
+
+    @Override
+    public PageDto<CategoryDto> getPage(Integer pageIndex, Integer pageSize) {
+
+        Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+
+        Page<CategoryDto> page = categoryRepository.findAll(pageable).map(CategoryDto::new);
+
+        return PageDto.of(page);
     }
 }

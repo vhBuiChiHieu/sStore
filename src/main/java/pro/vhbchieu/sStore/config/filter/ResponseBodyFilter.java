@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import pro.vhbchieu.sStore.config.common.ApiResponse;
 import pro.vhbchieu.sStore.config.common.DuplicateCode;
 import org.springframework.lang.NonNull;
+import pro.vhbchieu.sStore.sys.controller.FileController;
 
 
 import java.time.LocalDateTime;
@@ -43,7 +44,7 @@ public class ResponseBodyFilter implements ResponseBodyAdvice<Object> {
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response
     ) {
-        if (!returnType.getContainingClass().isAnnotationPresent(RestController.class))
+        if (!returnType.getContainingClass().isAnnotationPresent(RestController.class) || returnType.getContainingClass().equals(FileController.class))
             return body;
         if (body == null)
             body = new Object();
@@ -52,14 +53,19 @@ public class ResponseBodyFilter implements ResponseBodyAdvice<Object> {
 
         if (body.getClass() != ApiResponse.class && body.getClass() != String.class){
 
-            body = ApiResponse.builder()
-                    .requestId(httpRequest.getRequestId())
-                    .path(httpRequest.getRequestURI() + DuplicateCode.checkRequestQuery(httpRequest.getQueryString()))
-                    .timestamp(LocalDateTime.now())
-                    .code(200)
-                    .message("Success")
-                    .data(body)
-                    .build();
+            try {
+                body = ApiResponse.builder()
+                        .requestId(httpRequest.getRequestId())
+                        .path(httpRequest.getRequestURI() + DuplicateCode.checkRequestQuery(httpRequest.getQueryString()))
+                        .timestamp(LocalDateTime.now())
+                        .code(200)
+                        .message("Success")
+                        .data(body)
+                        .build();
+
+            } catch (Exception e) {
+                return body;
+            }
         }
         return body;
     }

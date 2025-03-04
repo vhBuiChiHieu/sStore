@@ -20,7 +20,9 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 import pro.vhbchieu.sStore.sys.domain.entity.Role;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
@@ -76,7 +78,7 @@ public class AccountServiceImpl implements AccountService {
      * Defaults to current authenticated user if user ID is null.
      */
     @Override
-    public AccountDto getInfo(Long userId) {
+    public AccountDetailDto getInfo(Long userId) {
         if (userId == null) {
             AccountAuthDto accountAuthDto = SecurityUtils.getCurrentAccount();
             if (accountAuthDto == null) {
@@ -88,7 +90,8 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(userId).orElseThrow(
                 () -> new CustomException(ErrorContent.ACCOUNT_NOT_EXIST)
         );
-        return new AccountDto(account);
+
+        return new AccountDetailDto(account);
     }
 
     /**
@@ -134,9 +137,13 @@ public class AccountServiceImpl implements AccountService {
      * Retrieves a paginated list of accounts based on the provided parameters.
      */
     @Override
-    public PageDto<AccountDto> getList(Integer pageIndex, Integer pageSize, Integer status) {
+    public PageDto<AccountDto> getList(Integer pageIndex, Integer pageSize, String search, Integer status) {
         Specification<Account> specification = (r, cq, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
+
+            if (search != null) {
+                predicates.add(cb.like(r.get("mail"), "%" + search + "%"));
+            }
 
             if (status != null) {
               predicates.add(cb.equal(r.get("status"), AccountStatus.fromValue(status)));
@@ -155,6 +162,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void delete(Long userId) {
         accountRepository.deleteById(userId);
+    }
+
+    @Override
+    public AccountStatsDto getStatic() {
+        AccountStatsDto accountStatsDto = new AccountStatsDto();
+        accountStatsDto.setTotalAccount(accountRepository.count());
+        return accountStatsDto;
     }
 
 }

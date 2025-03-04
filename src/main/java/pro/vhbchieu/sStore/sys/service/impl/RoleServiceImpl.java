@@ -3,7 +3,11 @@ package pro.vhbchieu.sStore.sys.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
 import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.RoleRequest;
@@ -86,6 +90,16 @@ public class RoleServiceImpl implements RoleService {
         role.setDescription(request.getDescription());
         role.setPermissions(permissions);
         roleRepository.save(role);
+    }
+
+    @Override
+    public PageDto<RoleDto> getPage(Integer pageIndex, Integer pageSize) {
+
+        Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+
+        Page<RoleDto> page = roleRepository.findAll(pageable).map(RoleDto::new);
+
+        return PageDto.of(page);
     }
 
 

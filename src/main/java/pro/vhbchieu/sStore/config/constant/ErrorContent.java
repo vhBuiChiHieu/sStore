@@ -27,6 +27,16 @@ public enum ErrorContent {
     PRODUCT_IMAGE_NOT_FOUND("Product image not found"),
     PRODUCT_IMAGE_ID_REQUIRED("Product image ID is required"),
     PRODUCT_VARIANT_ID_REQUIRED("Product variant ID is required"),
+
+    // Order
+    CART_NOT_FOUND("Cart not found"),
+
+    // File
+    UPLOAD_FILE_FAILED("Upload file failed"),
+    GET_FILE_FAILED("Get file failed"),
+    EMPTY_FILE("Empty file"),
+    FILE_FORMAT_NOT_SUPPORT("File format not support"),
+    SAVED_FILE_FAILED("Saved file failed"),
     ;
     private final String content;
 

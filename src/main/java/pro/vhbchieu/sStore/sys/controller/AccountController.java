@@ -12,7 +12,9 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
 import pro.vhbchieu.sStore.sys.service.AccountService;
 import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
@@ -35,9 +37,10 @@ public class AccountController {
     public PageDto<AccountDto> getList(
             @Min(1) @RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
             @Min(1) @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize,
-            @RequestParam(value = "status", required = false) Integer status
+            @RequestParam(value = "status", required = false) Integer status,
+            @RequestParam(value = "search", required = false) String search
     ) {
-        return accountService.getList(pageIndex, pageSize, status);
+        return accountService.getList(pageIndex, pageSize, search, status);
     }
 
     @PreAuthorize("hasAuthority('ACCOUNT_UPDATE_OWN')")
@@ -58,12 +61,12 @@ public class AccountController {
 
     @PreAuthorize("hasAuthority('ACCOUNT_READ_OWN')")
     @GetMapping("/profile")
-    public AccountDto info() {
+    public AccountDetailDto info() {
         return accountService.getInfo(null);
     }
 
     @GetMapping("/profile/{userId}")
-    public AccountDto info(@PathVariable("userId") Long userId) {
+    public AccountDetailDto info(@PathVariable("userId") Long userId) {
         return accountService.getInfo(userId);
     }
 
@@ -71,6 +74,13 @@ public class AccountController {
     @DeleteMapping("/{userId}")
     public void delete(@PathVariable("userId") Long userId) {
         accountService.delete(userId);
+    }
+
+    // Tổng người dùng.
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/static")
+    public AccountStatsDto getStatic(){
+        return accountService.getStatic();
     }
 
 }

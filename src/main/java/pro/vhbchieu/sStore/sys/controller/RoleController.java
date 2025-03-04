@@ -1,8 +1,10 @@
 package pro.vhbchieu.sStore.sys.controller;
 
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.RoleRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.account.RoleDto;
 import pro.vhbchieu.sStore.sys.service.RoleService;
@@ -20,6 +22,14 @@ public class RoleController {
     @GetMapping()
     public List<RoleDto> getList(){
         return roleService.getList();
+    }
+
+    @GetMapping("/page")
+    public PageDto<RoleDto> getPage(
+            @Min(1) @RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
+            @Min(1) @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
+    ) {
+        return roleService.getPage(pageIndex, pageSize);
     }
 
     @GetMapping("/{roleId}")

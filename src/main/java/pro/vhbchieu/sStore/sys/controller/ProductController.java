@@ -1,8 +1,10 @@
 package pro.vhbchieu.sStore.sys.controller;
 
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.sys.domain.dto.product.*;
 import pro.vhbchieu.sStore.sys.service.ProductService;
 
@@ -22,7 +24,13 @@ public class ProductController {
         return productService.getList();
     }
 
-    //todo search
+    @GetMapping("/page")
+    public PageDto<ProductDto> getPage(
+            @Min(1) @RequestParam(value = "pageIndex", defaultValue = "1") Integer pageIndex,
+            @Min(1) @RequestParam(value = "pageSize", defaultValue = "10") Integer pageSize
+    ) {
+        return productService.getPage(pageIndex, pageSize);
+    }
 
     @PostMapping()
     public ProductDto create(@RequestBody ProductRequest request) {

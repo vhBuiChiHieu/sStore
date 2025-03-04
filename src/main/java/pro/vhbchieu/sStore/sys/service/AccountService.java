@@ -9,7 +9,9 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
 import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
 
 @Service
 public interface AccountService {
@@ -26,10 +28,10 @@ public interface AccountService {
      * Get account information by user ID
      *
      * @param userId The ID of the user to retrieve information for
-     * @return AccountDto containing user account details
+     * @return AccountDetailDto containing user account details
      * @throws CustomException if user is not found
      */
-    AccountDto getInfo(Long userId);
+    AccountDetailDto getInfo(Long userId);
 
     /**
      * Change password for authenticated user
@@ -54,10 +56,13 @@ public interface AccountService {
      *
      * @param pageIndex Page number (starting from 1)
      * @param pageSize Number of items per page
+     * @param search Mail off account
      * @param status Filter by account status (optional)
      * @return PageDto containing list of AccountDto objects
      */
-    PageDto<AccountDto> getList(@Min(1) Integer pageIndex, @Min(1) Integer pageSize, Integer status);
+    PageDto<AccountDto> getList(@Min(1) Integer pageIndex, @Min(1) Integer pageSize, String search, Integer status);
 
     void delete(Long userId);
+
+    AccountStatsDto getStatic();
 }

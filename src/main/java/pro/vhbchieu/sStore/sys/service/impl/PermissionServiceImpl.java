@@ -2,7 +2,10 @@ package pro.vhbchieu.sStore.sys.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.PermissionRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.account.PermissionDto;
 import pro.vhbchieu.sStore.sys.domain.entity.Permission;
@@ -35,6 +38,12 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public void delete(Long permissionId) {
         permissionRepository.deleteById(permissionId);
+    }
+
+    @Override
+    public PageDto<PermissionDto> getPage(Integer pageIndex, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageIndex - 1, pageSize);
+        return PageDto.of(permissionRepository.findAll(pageable).map(PermissionDto::new));
     }
 
 }
