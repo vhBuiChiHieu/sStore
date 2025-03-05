@@ -18,7 +18,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @PreAuthorize("permitAll()")
     @GetMapping()
     public List<ProductDto> getList() {
         return productService.getList();

@@ -8,7 +8,7 @@ import pro.vhbchieu.sStore.sys.service.ProductImageService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/product-images")
+@RequestMapping("/api/product-variant-images")
 @RequiredArgsConstructor
 public class ProductImageController {
     private final ProductImageService productImageService;

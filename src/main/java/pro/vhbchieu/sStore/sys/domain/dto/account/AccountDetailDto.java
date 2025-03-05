@@ -12,9 +12,6 @@ import java.time.LocalDate;
 @Setter
 public class AccountDetailDto extends AccountDto {
 
-    private String firstName;
-    private String lastName;
-
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
@@ -26,8 +23,6 @@ public class AccountDetailDto extends AccountDto {
         super(account, option);
         UserInfo info = account.getUserInfo();
         if (info != null) {
-            this.firstName = info.getFirstName();
-            this.lastName = info.getLastName();
             this.dateOfBirth = info.getDateOfBirth();
             this.description = info.getDescription();
             this.avatar = info.getAvatar();

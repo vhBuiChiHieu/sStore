@@ -19,10 +19,7 @@ import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.*;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 import pro.vhbchieu.sStore.sys.domain.entity.Role;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
@@ -44,12 +41,6 @@ public class AccountServiceImpl implements AccountService {
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Implementation to create and persist a new account,
-     * and generate authentication tokens.
-     */
     @Override
     public TokenResponse createAccount(AccountRequest request) {
         if (accountRepository.existsByMail(request.getEmail()))
@@ -71,12 +62,6 @@ public class AccountServiceImpl implements AccountService {
                 .build();
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Provides account information based on the given user ID.
-     * Defaults to current authenticated user if user ID is null.
-     */
     @Override
     public AccountDetailDto getInfo(Long userId) {
         if (userId == null) {
@@ -94,12 +79,6 @@ public class AccountServiceImpl implements AccountService {
         return new AccountDetailDto(account);
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Handles password change for the authenticated user.
-     * Verifies passwords and updates the hashed password.
-     */
     @Override
     public void changePassword(AccountChangePasswordDto request, AccountAuthDto accountAuthDto) {
         if (accountAuthDto == null) {
@@ -117,11 +96,6 @@ public class AccountServiceImpl implements AccountService {
     }
 
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Updates the status of the account associated with the provided ID.
-     */
     @Override
     public void changeStatus(Long id, Integer status) {
         Account account = accountRepository.findById(id).orElseThrow(
@@ -131,11 +105,6 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.save(account);
     }
 
-    /**
-     * {@inheritDoc}
-     * <p>
-     * Retrieves a paginated list of accounts based on the provided parameters.
-     */
     @Override
     public PageDto<AccountDto> getList(Integer pageIndex, Integer pageSize, String search, Integer status) {
         Specification<Account> specification = (r, cq, cb) -> {
@@ -169,6 +138,26 @@ public class AccountServiceImpl implements AccountService {
         AccountStatsDto accountStatsDto = new AccountStatsDto();
         accountStatsDto.setTotalAccount(accountRepository.count());
         return accountStatsDto;
+    }
+
+    @Override
+    public void update(Long accountId, AccountUpdate request) {
+        Account account = accountRepository.findById(accountId).orElseThrow(
+                () -> new CustomException(ErrorContent.ACCOUNT_NOT_EXIST)
+        );
+        if (request.getStatus() != null) {
+            account.setStatus(request.getStatus());
+        }
+
+        if (request.getRoles() != null && !request.getRoles().isEmpty() ) {
+            List<Role> roles = request.getRoles().stream().map(roleRequest ->
+                    roleRepository.findById(roleRequest.getId()).orElseThrow(() -> new CustomException(ErrorContent.ROLE_NOT_EXIST))
+            ).toList();
+            account.getRoles().clear();
+            account.getRoles().addAll(roles);
+        }
+
+        accountRepository.save(account);
     }
 
 }

@@ -6,7 +6,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
 import pro.vhbchieu.sStore.config.constant.ErrorContent;
-import pro.vhbchieu.sStore.config.constant.RoleType;
 import pro.vhbchieu.sStore.config.constant.TokenType;
 import pro.vhbchieu.sStore.config.security.JwtService;
 import pro.vhbchieu.sStore.exception.CustomException;
@@ -42,7 +41,7 @@ public class AuthorServiceImpl implements AuthorService {
         Account newAccount = Account.builder()
                 .mail(request.getEmail())
                 .hashPassword(passwordEncoder.encode(request.getPassword()))
-                .roles(List.of(roleRepository.findByName(RoleType.USER)))
+                .roles(List.of(roleRepository.findByName("USER")))
                 .status(AccountStatus.ACTIVE)
                 .build();
         accountRepository.save(newAccount);

@@ -34,7 +34,7 @@ public class FileController {
             HttpServletResponse response
     ) {
         if (fileName.contains("..")) {
-            throw new CustomException(ErrorContent.GET_FILE_FAILED);
+            throw new CustomException(">> Invalid file name");
         }
         Resource resource = fileService.getImage(fileName, response);
         return ResponseEntity.ok()

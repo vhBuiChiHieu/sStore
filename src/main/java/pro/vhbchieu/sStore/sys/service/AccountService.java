@@ -8,10 +8,7 @@ import pro.vhbchieu.sStore.exception.CustomException;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.*;
 
 @Service
 public interface AccountService {
@@ -65,4 +62,6 @@ public interface AccountService {
     void delete(Long userId);
 
     AccountStatsDto getStatic();
+
+    void update(Long accountId, AccountUpdate request);
 }

@@ -18,6 +18,9 @@ public class AccountDto {
     protected List<RoleDto> roles;
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
+    protected Long userInfoId;
+    protected String firstName;
+    protected String lastName;
 
     public AccountDto(Account account, String... option) {
         this.id = account.getId();
@@ -28,5 +31,10 @@ public class AccountDto {
         this.phone = account.getPhone();
         this.createdAt = account.getCreatedAt();
         this.updatedAt = account.getUpdatedAt();
+        if (account.getUserInfo() != null) {
+            this.userInfoId = account.getUserInfo().getId();
+            this.firstName = account.getUserInfo().getFirstName();
+            this.lastName = account.getUserInfo().getLastName();
+        }
     }
 }

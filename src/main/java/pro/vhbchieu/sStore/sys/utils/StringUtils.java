@@ -56,7 +56,7 @@ public class StringUtils {
     public static String abbreviate(String str, int maxLength) {
         if (str == null) return null;
         if (str.length() <= maxLength) return str;
-        return str.substring(0, maxLength - 3) + "...";
+        return str.substring(0, maxLength - 3) + "___";
     }
 
     /**

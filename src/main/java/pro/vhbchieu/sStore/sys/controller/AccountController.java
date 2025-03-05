@@ -11,10 +11,7 @@ import pro.vhbchieu.sStore.config.common.PageDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountAuthDto;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.AccountRequest;
 import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountChangePasswordDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDetailDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountDto;
-import pro.vhbchieu.sStore.sys.domain.dto.account.AccountStatsDto;
+import pro.vhbchieu.sStore.sys.domain.dto.account.*;
 import pro.vhbchieu.sStore.sys.service.AccountService;
 import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
@@ -83,4 +80,9 @@ public class AccountController {
         return accountService.getStatic();
     }
 
+    @PreAuthorize("hasAnyAuthority('ACCOUNT_UPDATE')")
+    @PutMapping("/{accountId}")
+    public void update(@PathVariable Long accountId, @RequestBody AccountUpdate request) {
+        accountService.update(accountId, request);
+    }
 }
