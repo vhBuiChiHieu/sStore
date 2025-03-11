@@ -30,6 +30,8 @@ public enum ErrorContent {
 
     // Order
     CART_NOT_FOUND("Cart not found"),
+    ORDER_NOT_FOUND("Order not found"),
+    STOCK_NOT_ENOUGH("Stock not enough"),
 
     // File
     UPLOAD_FILE_FAILED("Upload file failed"),

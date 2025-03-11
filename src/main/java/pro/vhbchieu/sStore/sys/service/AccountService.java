@@ -12,13 +12,7 @@ import pro.vhbchieu.sStore.sys.domain.dto.account.*;
 
 @Service
 public interface AccountService {
-    /**
-     * Create a new account
-     *
-     * @param request Account creation request containing user details
-     * @return TokenResponse containing authentication tokens for the new account
-     * @throws CustomException if account creation fails or validation errors occur
-     */
+
     TokenResponse createAccount(AccountRequest request);
 
     /**

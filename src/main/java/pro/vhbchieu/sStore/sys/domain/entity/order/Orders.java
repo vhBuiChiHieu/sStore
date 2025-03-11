@@ -2,7 +2,6 @@ package pro.vhbchieu.sStore.sys.domain.entity.order;
 
 import jakarta.persistence.*;
 import lombok.*;
-import pro.vhbchieu.sStore.config.constant.OrderStatus;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 import pro.vhbchieu.sStore.sys.domain.entity.BaseEntity;
 
@@ -28,8 +27,7 @@ public class Orders extends BaseEntity {
     @Column(nullable = false)
     private Double total;
 
-    @Enumerated(EnumType.STRING)
-    private OrderStatus status;
+    private String status;
 
     private String paymentMethod;
 

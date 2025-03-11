@@ -7,11 +7,12 @@ import lombok.Setter;
 import lombok.ToString;
 import pro.vhbchieu.sStore.config.constant.AccountStatus;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Setter
-@ToString
 public class AccountRequest {
 
     @NotBlank(message = "Email must not be blank")
@@ -28,5 +29,11 @@ public class AccountRequest {
 
     private AccountStatus status = AccountStatus.ACTIVE;
 
-    private List<String> roles = List.of("USER");
+    private List<RoleRequest> roles = new ArrayList<>();
+
+    //
+    private String firstName;
+    private String lastName;
+    private String phone;
+    private LocalDate dateOfBirth;
 }

@@ -22,8 +22,10 @@ import pro.vhbchieu.sStore.sys.domain.dto.Auth.TokenResponse;
 import pro.vhbchieu.sStore.sys.domain.dto.account.*;
 import pro.vhbchieu.sStore.sys.domain.entity.Account;
 import pro.vhbchieu.sStore.sys.domain.entity.Role;
+import pro.vhbchieu.sStore.sys.domain.entity.UserInfo;
 import pro.vhbchieu.sStore.sys.repository.AccountRepository;
 import pro.vhbchieu.sStore.sys.repository.RoleRepository;
+import pro.vhbchieu.sStore.sys.repository.UserInfoRepository;
 import pro.vhbchieu.sStore.sys.service.AccountService;
 import pro.vhbchieu.sStore.sys.utils.SecurityUtils;
 
@@ -38,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final RoleRepository roleRepository;
+    private final UserInfoRepository userInfoRepository;
     private final JwtService jwtService;
     private final PasswordEncoder passwordEncoder;
 
@@ -46,15 +49,26 @@ public class AccountServiceImpl implements AccountService {
         if (accountRepository.existsByMail(request.getEmail()))
             throw new CustomException(ErrorContent.EMAIL_ALREADY_EXIST);
 
-        List<Role> roles = request.getRoles().stream().map(roleRepository::findByName).toList();
+        List<Role> roles = request.getRoles().stream().map(rr ->
+                roleRepository.findById(rr.getId()).orElseThrow(() -> new CustomException(ErrorContent.ROLE_NOT_EXIST))
+        ).toList();
 
         Account newAccount = Account.builder()
                 .mail(request.getEmail())
                 .hashPassword(passwordEncoder.encode(request.getPassword()))
                 .status(request.getStatus())
+                .phone(request.getPhone())
                 .roles(roles)
                 .build();
         accountRepository.save(newAccount);
+
+        UserInfo userInfo = UserInfo.builder()
+                .account(newAccount)
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .dateOfBirth(request.getDateOfBirth())
+                .build();
+        userInfoRepository.save(userInfo);
 
         return TokenResponse.builder()
                 .token(jwtService.generateToken(newAccount.getId(), newAccount.getMail(), TokenType.ACCESS))
